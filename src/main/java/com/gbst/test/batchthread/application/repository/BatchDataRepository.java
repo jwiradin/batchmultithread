@@ -22,9 +22,8 @@ public interface BatchDataRepository extends JpaRepository<BatchData, Integer> {
                                  Pageable pageable);
 
     @Query(value = "select b.batchDataId from BatchData b where " +
-            "b.lastStep = :lastStep and b.steps like '%'+ :step +'%'")
-    Page<Integer> findAllForReader(@Param("lastStep") String lastStep,
-                                   @Param("step") String step,
+            "b.steps like '%'+ :step +'%'")
+    Page<Integer> findAllForReader(@Param("step") String step,
                                    Pageable pageable);
 
 

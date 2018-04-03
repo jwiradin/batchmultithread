@@ -31,7 +31,7 @@ public class ItemReaderConfiguration {
 
         stepExecution.getExecutionContext().putString("curStep", curStep);
         List<String> arguments = new ArrayList<String>();
-        arguments.add(prevStep);
+        //arguments.add(prevStep);
         arguments.add(curStep);
 
         Map<String, Sort.Direction> sorting = new HashMap<>();
@@ -56,7 +56,7 @@ public class ItemReaderConfiguration {
 
         stepExecution.getExecutionContext().putString("curStep", curStep);
         List<String> arguments = new ArrayList<String>();
-        arguments.add(prevStep);
+        //arguments.add(prevStep);
         arguments.add(curStep);
 
         Map<String, Sort.Direction> sorting = new HashMap<>();
@@ -81,7 +81,7 @@ public class ItemReaderConfiguration {
 
         stepExecution.getExecutionContext().putString("curStep", curStep);
         List<String> arguments = new ArrayList<String>();
-        arguments.add(prevStep);
+        //arguments.add(prevStep);
         arguments.add(curStep);
 
         Map<String, Sort.Direction> sorting = new HashMap<>();
@@ -106,7 +106,7 @@ public class ItemReaderConfiguration {
 
         stepExecution.getExecutionContext().putString("curStep", curStep);
         List<String> arguments = new ArrayList<String>();
-        arguments.add(prevStep);
+        //arguments.add(prevStep);
         arguments.add(curStep);
 
         Map<String, Sort.Direction> sorting = new HashMap<>();

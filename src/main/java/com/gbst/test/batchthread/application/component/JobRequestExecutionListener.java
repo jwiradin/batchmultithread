@@ -23,7 +23,7 @@ public class JobRequestExecutionListener implements JobExecutionListener {
         Long jobRequestId = jobExecution.getJobParameters().getLong("jobRequestId");
 
         JobRequest jobRequest = getJobRequest(jobRequestId);
-        jobRequest.setJobExecutionId(jobExecution.getJobId());
+        jobRequest.setJobExecutionId(jobExecution.getId());
         jobRequest.setStartDate(LocalDateTime.now());
         jobRequestRepository.save(jobRequest);
 

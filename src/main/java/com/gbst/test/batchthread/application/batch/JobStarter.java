@@ -66,25 +66,27 @@ public class JobStarter {
     }
 
     private Job getAllJob(){
-        
-        Step postTask = steps.get("postTask")
-                .tasklet(postStepTasklet)
-                .build();
 
         return jobBuilderFactory.get("allJob")
                 .start(partitionStep1)
-                .next(postTask)
+                .next(getPostStep("postTask1"))
                 .next(partitionStep2)
-                .next(postTask)
+                .next(getPostStep("postTask2"))
                 .next(partitionStep3)
-                .next(postTask)
+                .next(getPostStep("postTask3"))
                 .next(partitionStep4)
-                .next(postTask)
+                .next(getPostStep("postTask4"))
                 .next(partitionStep5)
-                .next(postTask)
+                .next(getPostStep("postTask5"))
                 .listener(jobRequestExecutionListener)
                 .build();
 
 
+    }
+
+    private Step getPostStep(String name){
+        return steps.get(name)
+                .tasklet(postStepTasklet)
+                .build();
     }
 }

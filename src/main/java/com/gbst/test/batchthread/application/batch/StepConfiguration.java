@@ -36,7 +36,7 @@ public class StepConfiguration {
     ItemReader<Integer> step5ItemReader;
 
     @Autowired
-    ItemProcessor<Integer,BatchData> step1ItemProcessor;
+    ItemProcessor<Integer,BatchData> stepItemProcessor;
 
     @Autowired
     ItemWriter<BatchData> step1ItemWriter;
@@ -62,7 +62,7 @@ public class StepConfiguration {
 
         return steps.get("step1").<Integer, BatchData>chunk(20)
                 .reader(step1ItemReader)
-                .processor(step1ItemProcessor)
+                .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
@@ -86,7 +86,7 @@ public class StepConfiguration {
 
         return steps.get("step2").<Integer, BatchData>chunk(20)
                 .reader(step2ItemReader)
-                .processor(step1ItemProcessor)
+                .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
@@ -97,7 +97,7 @@ public class StepConfiguration {
     @Bean
     public Step partitionStep2(){
 
-        return steps.get("partitionStep1")
+        return steps.get("partitionStep2")
                 .partitioner("partitionStep1", stepPartitioner)
                 .step(step2())
                 .gridSize(5)
@@ -110,7 +110,7 @@ public class StepConfiguration {
 
         return steps.get("step3").<Integer, BatchData>chunk(20)
                 .reader(step3ItemReader)
-                .processor(step1ItemProcessor)
+                .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
@@ -135,7 +135,7 @@ public class StepConfiguration {
 
         return steps.get("step4").<Integer, BatchData>chunk(20)
                 .reader(step4ItemReader)
-                .processor(step1ItemProcessor)
+                .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
@@ -160,7 +160,7 @@ public class StepConfiguration {
 
         return steps.get("step5").<Integer, BatchData>chunk(20)
                 .reader(step5ItemReader)
-                .processor(step1ItemProcessor)
+                .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)

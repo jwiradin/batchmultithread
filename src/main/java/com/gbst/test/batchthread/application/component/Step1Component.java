@@ -20,6 +20,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -59,7 +60,7 @@ public class Step1Component {
 
         stepExecution.getExecutionContext().putString("curStep", curStep);
         List<String> arguments = new ArrayList<String>();
-        arguments.add(prevStep);
+        //arguments.add(prevStep);
         arguments.add(curStep);
 
         Map<String, Sort.Direction> sorting = new HashMap<>();
@@ -83,7 +84,9 @@ public class Step1Component {
         return writer;
     }
 
+    /*
     @Bean
+    @Scope(value = "step")
     public ItemProcessor<Integer,BatchData> step1ItemProcessor(){
 
         return new ItemProcessor<Integer, BatchData>() {
@@ -92,31 +95,39 @@ public class Step1Component {
             public BatchData process(Integer batchDataId) throws Exception {
                 BatchData output = batchDataRepository.findById(batchDataId).get();
 
-                switch (output.getLastStep()) {
-                    case "":
+                String[] steps = output.getSteps().split(",");
+                String lastStep = output.getLastStep();
+                String curStep = findNextStep(steps, lastStep);
+
+                switch (curStep) {
+                    case "step1":
                         output.setStep1(Thread.currentThread().getName());
                         break;
-                    case "step1":
+                    case "step2":
                         output.setStep2(Thread.currentThread().getName());
                         break;
-                    case "step2":
+                    case "step3":
                         output.setStep3(Thread.currentThread().getName());
                         break;
-                    case "step3":
+                    case "step4":
                         output.setStep4(Thread.currentThread().getName());
                         break;
-                    case "step4":
+                    case "step5":
                         output.setStep5(Thread.currentThread().getName());
                         break;
 
                 }
 
+                output.setNextStep(curStep);
                 output.setJobEnd(LocalDateTime.now());
                 
                 return output;
             }
         };
+
     }
+  */
+
 
     @Bean
     @StepScope
@@ -135,7 +146,7 @@ public class Step1Component {
             public void afterProcess(Integer integer, BatchData batchData) {
                 batchData.setJobStart(start);
                 batchData.setJobExecutionId(stepExecution.getJobExecutionId());
-                batchData.setNextStep(stepExecution.getExecutionContext().get("curStep").toString());
+                //batchData.setNextStep(stepExecution.getExecutionContext().get("curStep").toString());
             }
 
             @Override
