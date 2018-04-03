@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Component
 @StepScope
 public class StepItemProcessor implements ItemProcessor<Integer, BatchData> {
+
     @Value("#{stepExecution}")
     StepExecution stepExecution;
 
@@ -43,27 +44,10 @@ public class StepItemProcessor implements ItemProcessor<Integer, BatchData> {
             case "step5":
                 output.setStep5(Thread.currentThread().getName());
                 break;
-
         }
-
         output.setNextStep(curStep);
-        output.setJobEnd(LocalDateTime.now());
 
         return output;
 
-    }
-
-    private String findNextStep(String[] steps, String curStep){
-
-        String nextStep = "";
-
-        for(int i = 0; i < steps.length-1;i++){
-            if(curStep.equalsIgnoreCase(steps[i])){
-                nextStep = steps[i+1];
-                break;
-            }
-        }
-
-        return nextStep;
     }
 }

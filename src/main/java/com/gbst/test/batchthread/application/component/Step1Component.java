@@ -84,51 +84,6 @@ public class Step1Component {
         return writer;
     }
 
-    /*
-    @Bean
-    @Scope(value = "step")
-    public ItemProcessor<Integer,BatchData> step1ItemProcessor(){
-
-        return new ItemProcessor<Integer, BatchData>() {
-
-            @Override
-            public BatchData process(Integer batchDataId) throws Exception {
-                BatchData output = batchDataRepository.findById(batchDataId).get();
-
-                String[] steps = output.getSteps().split(",");
-                String lastStep = output.getLastStep();
-                String curStep = findNextStep(steps, lastStep);
-
-                switch (curStep) {
-                    case "step1":
-                        output.setStep1(Thread.currentThread().getName());
-                        break;
-                    case "step2":
-                        output.setStep2(Thread.currentThread().getName());
-                        break;
-                    case "step3":
-                        output.setStep3(Thread.currentThread().getName());
-                        break;
-                    case "step4":
-                        output.setStep4(Thread.currentThread().getName());
-                        break;
-                    case "step5":
-                        output.setStep5(Thread.currentThread().getName());
-                        break;
-
-                }
-
-                output.setNextStep(curStep);
-                output.setJobEnd(LocalDateTime.now());
-                
-                return output;
-            }
-        };
-
-    }
-  */
-
-
     @Bean
     @StepScope
     public ItemProcessListener<Integer,BatchData> step1ItemProcessorListener(@Value("#{stepExecution}") StepExecution stepExecution){
@@ -145,8 +100,8 @@ public class Step1Component {
             @Override
             public void afterProcess(Integer integer, BatchData batchData) {
                 batchData.setJobStart(start);
+                batchData.setJobEnd(LocalDateTime.now());
                 batchData.setJobExecutionId(stepExecution.getJobExecutionId());
-                //batchData.setNextStep(stepExecution.getExecutionContext().get("curStep").toString());
             }
 
             @Override
