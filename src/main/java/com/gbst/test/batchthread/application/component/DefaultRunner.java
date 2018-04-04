@@ -50,14 +50,15 @@ public class DefaultRunner implements CommandLineRunner {
 
         JobRequest jobRequest = new JobRequest();
         jobRequest.setCreateDate(LocalDateTime.now());
+        jobRequest.setStatus("");
         jobRequestRepository.save(jobRequest);
 
-        Map<String, JobParameter> parameters = new HashMap<>();
+/*        Map<String, JobParameter> parameters = new HashMap<>();
 
         parameters.put("jobRequestId", new JobParameter(jobRequest.getJobRequestId()));
         parameters.put("startTime", new JobParameter(Calendar.getInstance().getTimeInMillis()) );
 
         jobLauncher.run(batchJob, new JobParameters(parameters));
-
+*/
     }
 }
