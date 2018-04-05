@@ -1,4 +1,4 @@
-package com.gbst.test.batchthread.application.component;
+package com.gbst.test.batchthread.application.configuration;
 
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
@@ -45,7 +45,4 @@ public class JobRepositoryConfig {
         jobLauncher.afterPropertiesSet();
         return jobLauncher;
     }
-
-
-
 }

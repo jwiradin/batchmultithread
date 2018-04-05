@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class ItemReaderConfiguration {
+public class ItemReaderComponent {
 
     @Autowired
     BatchDataRepository batchDataRepository;
