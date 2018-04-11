@@ -11,6 +11,7 @@ import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,10 @@ public class DefaultRunner implements CommandLineRunner {
     BatchDataRepository batchDataRepository;
 
     @Autowired
+    @Qualifier("splitJob")
+    Job splitJob;
+
+    @Autowired
     JobRequestRepository jobRequestRepository;
 
     Logger logger = LoggerFactory.getLogger(DefaultRunner.class);
@@ -47,18 +52,18 @@ public class DefaultRunner implements CommandLineRunner {
 
             batchDataRepository.save(batchData);
         }
-
+        /*
         JobRequest jobRequest = new JobRequest();
         jobRequest.setCreateDate(LocalDateTime.now());
         jobRequest.setStatus("");
         jobRequestRepository.save(jobRequest);
+        */
 
-/*        Map<String, JobParameter> parameters = new HashMap<>();
+        Map<String, JobParameter> parameters = new HashMap<>();
 
-        parameters.put("jobRequestId", new JobParameter(jobRequest.getJobRequestId()));
         parameters.put("startTime", new JobParameter(Calendar.getInstance().getTimeInMillis()) );
 
-        jobLauncher.run(batchJob, new JobParameters(parameters));
-*/
+        jobLauncher.run(splitJob, new JobParameters(parameters));
+
     }
 }

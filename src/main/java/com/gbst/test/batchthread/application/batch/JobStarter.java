@@ -35,10 +35,8 @@ public class JobStarter {
     @Autowired
     Step partitionStep1;
 
-
     @Autowired
     Step partitionStep2;
-
 
     @Autowired
     Step partitionStep3;
