@@ -22,8 +22,20 @@ public interface BatchDataRepository extends JpaRepository<BatchData, Integer> {
                                  Pageable pageable);
 
     @Query(value = "select b.batchDataId from BatchData b where " +
-            " b.lastStep < :step and b.nextStep <> :step and b.steps like '%'+ :step +'%'")
+            " b.jobCreationId = convert(int,:jobExecutionId) " +
+            " and b.lastStep < :step and b.nextStep <> :step and b.steps like '%'+ :step +'%' "+
+            " and b.batchDataId % convert(int,:max) = convert(int,:segment)")
     Page<Integer> findAllForReader(@Param("step") String step,
+                                   @Param("jobExecutionId") String jobExecutionId,
+                                   @Param("max") String max,
+                                   @Param("segment") String segment,
+                                   Pageable pageable);
+
+    @Query(value = "select b.batchDataId from BatchData b where " +
+            " b.jobCreationId = convert(int,:jobExecutionId) " +
+            " and b.lastStep < :step and b.nextStep <> :step and b.steps like '%'+ :step +'%' ")
+    Page<Integer> findAllForAsyncReader(@Param("step") String step,
+                                   @Param("jobExecutionId") String jobExecutionId,
                                    Pageable pageable);
 
 

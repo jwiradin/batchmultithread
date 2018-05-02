@@ -11,6 +11,8 @@ public class BatchData {
     int batchDataId;
 
     Long jobExecutionId;
+
+    Long jobCreationId;
     
     LocalDateTime jobStart;
 
@@ -134,5 +136,13 @@ public class BatchData {
 
     public void setNextStep(String nextStep) {
         this.nextStep = nextStep;
+    }
+
+    public Long getJobCreationId() {
+        return jobCreationId;
+    }
+
+    public void setJobCreationId(Long jobCreationId) {
+        this.jobCreationId = jobCreationId;
     }
 }

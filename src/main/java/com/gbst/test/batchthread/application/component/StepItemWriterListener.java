@@ -15,12 +15,13 @@ public class StepItemWriterListener implements ItemWriteListener<BatchData> {
 
     @Override
     public void beforeWrite(List<? extends BatchData> list) {
-
     }
 
     @Override
     public void afterWrite(List<? extends BatchData> list) {
-
+        StringBuilder sb = new StringBuilder();
+        list.forEach(b -> {sb.append(b.getBatchDataId()); sb.append(",");});
+        logger.debug("written {} {}", list.size(), sb.toString());
     }
 
     @Override

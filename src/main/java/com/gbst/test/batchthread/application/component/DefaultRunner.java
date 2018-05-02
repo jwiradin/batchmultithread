@@ -44,26 +44,17 @@ public class DefaultRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-
-        logger.debug("Start Default Runner");
-        
-        for(int i = 1; i <= 0;i++){
-            BatchData batchData = new BatchData();
-
-            batchDataRepository.save(batchData);
-        }
-        /*
         JobRequest jobRequest = new JobRequest();
         jobRequest.setCreateDate(LocalDateTime.now());
         jobRequest.setStatus("");
         jobRequestRepository.save(jobRequest);
-        */
 
+            /*
         Map<String, JobParameter> parameters = new HashMap<>();
 
         parameters.put("startTime", new JobParameter(Calendar.getInstance().getTimeInMillis()) );
 
         jobLauncher.run(splitJob, new JobParameters(parameters));
-
+                  */
     }
 }

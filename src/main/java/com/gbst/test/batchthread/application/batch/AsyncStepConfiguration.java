@@ -1,39 +1,52 @@
 package com.gbst.test.batchthread.application.batch;
 
-import com.gbst.test.batchthread.application.component.StepItemProcessorListener;
+import com.gbst.test.batchthread.application.component.StepItemReaderListener;
 import com.gbst.test.batchthread.application.component.StepItemWriterListener;
 import com.gbst.test.batchthread.application.model.BatchData;
 import org.springframework.batch.core.ItemProcessListener;
+import org.springframework.batch.core.ItemReadListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.partition.support.Partitioner;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Created by juliusl on 2/05/2018.
+ */
 @Component
-public class StepConfiguration {
-
+public class AsyncStepConfiguration {
     @Autowired
     private StepBuilderFactory steps;
 
     @Autowired
-    ItemReader<Integer> step1ItemReader;
+    @Qualifier("asyncStep1ItemReader")
+    ItemReader<Integer> asynchStep1ItemReader;
 
     @Autowired
-    ItemReader<Integer> step2ItemReader;
+    @Qualifier("asyncStep2ItemReader")
+    ItemReader<Integer> asynchStep2ItemReader;
 
     @Autowired
-    ItemReader<Integer> step3ItemReader;
+    @Qualifier("asyncStep3ItemReader")
+    ItemReader<Integer> asynchStep3ItemReader;
 
     @Autowired
-    ItemReader<Integer> step4ItemReader;
+    @Qualifier("asyncStep4ItemReader")
+    ItemReader<Integer> asynchStep4ItemReader;
 
     @Autowired
-    ItemReader<Integer> step5ItemReader;
+    @Qualifier("asyncStep5ItemReader")
+    ItemReader<Integer> asynchStep5ItemReader;
 
     @Autowired
     ItemProcessor<Integer,BatchData> stepItemProcessor;
@@ -42,7 +55,7 @@ public class StepConfiguration {
     ItemWriter<BatchData> step1ItemWriter;
 
     @Autowired
-    Partitioner stepPartitioner;
+    ItemReadListener<Integer> stepItemReaderListener;
 
     @Autowired
     ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -58,125 +71,76 @@ public class StepConfiguration {
     StepItemWriterListener stepItemWriterListener;
 
     @Bean
-    public Step step1(){
+    public Step asyncStep1(){
 
-        return steps.get("step1").<Integer, BatchData>chunk(20)
-                .reader(step1ItemReader)
+        return steps.get("asynchStep1").<Integer, BatchData>chunk(50)
+                .reader(asynchStep1ItemReader)
                 .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
                 .listener(step1ItemProcessListener)
-                .build();
-    }
-
-
-    @Bean
-    public Step partitionStep1(){
-
-        return steps.get("partitionStep1")
-                .partitioner("partitionStep1", stepPartitioner)
-                .step(step1())
-                .gridSize(5)
+                .listener(stepItemReaderListener)
                 .taskExecutor(threadPoolTaskExecutor)
                 .build();
     }
 
     @Bean
-    public Step step2(){
+    public Step asyncStep2(){
 
-        return steps.get("step2").<Integer, BatchData>chunk(20)
-                .reader(step2ItemReader)
+        return steps.get("asynchStep2").<Integer, BatchData>chunk(50)
+                .reader(asynchStep2ItemReader)
                 .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
                 .listener(step1ItemProcessListener)
-                .build();
-    }
-
-    @Bean
-    public Step partitionStep2(){
-
-        return steps.get("partitionStep2")
-                .partitioner("partitionStep1", stepPartitioner)
-                .step(step2())
-                .gridSize(5)
+                .listener(stepItemReaderListener)
                 .taskExecutor(threadPoolTaskExecutor)
                 .build();
     }
 
     @Bean
-    public Step step3(){
+    public Step asyncStep3(){
 
-        return steps.get("step3").<Integer, BatchData>chunk(20)
-                .reader(step3ItemReader)
+        return steps.get("asynchStep3").<Integer, BatchData>chunk(50)
+                .reader(asynchStep3ItemReader)
                 .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
                 .listener(step1ItemProcessListener)
-                .build();
-    }
-
-    @Bean
-    public Step partitionStep3(){
-
-        String stepName = "partitionStep3";
-        return steps.get(stepName)
-                .partitioner(stepName, stepPartitioner)
-                .step(step3())
-                .gridSize(5)
+                .listener(stepItemReaderListener)
                 .taskExecutor(threadPoolTaskExecutor)
                 .build();
     }
 
     @Bean
-    public Step step4(){
+    public Step asyncStep4(){
 
-        return steps.get("step4").<Integer, BatchData>chunk(20)
-                .reader(step4ItemReader)
+        return steps.get("asynchStep4").<Integer, BatchData>chunk(50)
+                .reader(asynchStep4ItemReader)
                 .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
                 .listener(step1ItemProcessListener)
-                .build();
-    }
-
-    @Bean
-    public Step partitionStep4(){
-
-        String stepName = "partitionStep4";
-        return steps.get(stepName)
-                .partitioner(stepName, stepPartitioner)
-                .step(step4())
-                .gridSize(5)
+                .listener(stepItemReaderListener)
                 .taskExecutor(threadPoolTaskExecutor)
                 .build();
     }
 
     @Bean
-    public Step step5(){
+    public Step asyncStep5(){
 
-        return steps.get("step5").<Integer, BatchData>chunk(20)
-                .reader(step5ItemReader)
+        return steps.get("asynchStep5").<Integer, BatchData>chunk(50)
+                .reader(asynchStep5ItemReader)
                 .processor(stepItemProcessor)
                 .writer(step1ItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
+                .listener(stepItemReaderListener)
                 .listener(step1ItemProcessListener)
-                .build();
-    }
-
-    @Bean
-    public Step partitionStep5(){
-
-        String stepName = "partitionStep5";
-        return steps.get(stepName)
-                .partitioner(stepName, stepPartitioner)
-                .step(step5())
-                .gridSize(5)
                 .taskExecutor(threadPoolTaskExecutor)
                 .build();
     }

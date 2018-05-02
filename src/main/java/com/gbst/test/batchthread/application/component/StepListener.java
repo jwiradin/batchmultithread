@@ -22,6 +22,7 @@ public class StepListener implements StepExecutionListener {
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         logger.debug("Step name {} exit id {} status{}", stepExecution.getStepName(), stepExecution.getId(), stepExecution.getExitStatus().getExitCode());
+        logger.debug("read {}, processSkip {}, write {}, skip {}", stepExecution.getReadCount(), stepExecution.getProcessSkipCount(), stepExecution.getWriteCount(), stepExecution.getSkipCount());        
         return null;
     }
 }

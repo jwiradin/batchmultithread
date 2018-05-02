@@ -16,16 +16,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by juliusl on 2/05/2018.
+ */
 @Component
-public class ItemReaderComponent {
-
+public class AsyncItemReaderComponent {
     @Autowired
     BatchDataRepository batchDataRepository;
 
 
     @StepScope
     @Bean
-    public ItemReader<Integer> step1ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
+    public ItemReader<Integer> asyncStep1ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
         String curStep="step1";
         return getItemReader(curStep, stepExecution);
     }
@@ -33,7 +35,7 @@ public class ItemReaderComponent {
 
     @StepScope
     @Bean
-    public ItemReader<Integer> step2ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
+    public ItemReader<Integer> asyncStep2ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
 
         String curStep="step2";
         return getItemReader(curStep, stepExecution);
@@ -41,7 +43,7 @@ public class ItemReaderComponent {
 
     @StepScope
     @Bean
-    public ItemReader<Integer> step3ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
+    public ItemReader<Integer> asyncStep3ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
 
         String curStep="step3";
         return getItemReader(curStep, stepExecution);
@@ -50,7 +52,7 @@ public class ItemReaderComponent {
 
     @StepScope
     @Bean
-    public ItemReader<Integer> step4ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
+    public ItemReader<Integer> asyncStep4ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
 
         String curStep="step4";
         return getItemReader(curStep, stepExecution);
@@ -59,7 +61,7 @@ public class ItemReaderComponent {
 
     @StepScope
     @Bean
-    public ItemReader<Integer> step5ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
+    public ItemReader<Integer> asyncStep5ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
 
         String curStep="step5";
         return getItemReader(curStep, stepExecution);
@@ -73,8 +75,6 @@ public class ItemReaderComponent {
 
         arguments.add(curStep);
         arguments.add(stepExecution.getJobParameters().getLong("jobRequestId").toString());
-        arguments.add((( Integer.toString(stepExecution.getExecutionContext().getInt("max") ))));
-        arguments.add((( Integer.toString(stepExecution.getExecutionContext().getInt("segment") ))));
 
 
         Map<String, Sort.Direction> sorting = new HashMap<>();
@@ -82,13 +82,12 @@ public class ItemReaderComponent {
 
         RepositoryItemReader<Integer> reader = new RepositoryItemReader<>();
         reader.setRepository(batchDataRepository);
-        reader.setMethodName("findAllForReader");
+        reader.setMethodName("findAllForAsyncReader");
         reader.setArguments(arguments);
         reader.setSort(sorting);
-        reader.setPageSize(20);
+        reader.setPageSize(5);
         reader.setSaveState(false);
 
         return reader;
     }
-
 }

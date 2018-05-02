@@ -1,4 +1,4 @@
-package com.gbst.test.batchthread.application.batch;
+package com.gbst.test.batchthread.application.component;
 
 import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.item.ExecutionContext;

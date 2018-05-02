@@ -3,7 +3,9 @@ package com.gbst.test.batchthread.application.component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemReadListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StepItemReaderListener implements ItemReadListener<Integer> {
     private final Logger logger = LoggerFactory.getLogger(StepItemWriterListener.class);
 
@@ -14,7 +16,7 @@ public class StepItemReaderListener implements ItemReadListener<Integer> {
 
     @Override
     public void afterRead(Integer integer) {
-
+        //logger.debug("read {}", integer);
     }
 
     @Override

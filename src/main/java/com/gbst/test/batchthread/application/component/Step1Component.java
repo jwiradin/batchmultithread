@@ -51,30 +51,6 @@ public class Step1Component {
     }
 
 
-    @StepScope
-    @Bean
-    public ItemReader<Integer> step1ItemReader(@Value("#{stepExecution}") StepExecution stepExecution) {
-
-        String prevStep="";
-        String curStep="step1";
-
-        stepExecution.getExecutionContext().putString("curStep", curStep);
-        List<String> arguments = new ArrayList<String>();
-        //arguments.add(prevStep);
-        arguments.add(curStep);
-
-        Map<String, Sort.Direction> sorting = new HashMap<>();
-        sorting.put("batchDataId", Sort.Direction.ASC);
-
-        RepositoryItemReader<Integer> reader = new RepositoryItemReader<>();
-        reader.setRepository(batchDataRepository);
-        reader.setMethodName("findAllForReader");
-        reader.setArguments(arguments);
-        reader.setSort(sorting);
-        reader.setPageSize(50);
-        reader.setSaveState(false);
-        return reader;
-    }
 
 
     @Bean

@@ -33,21 +33,38 @@ public class BatchRequestMonitor {
     @Autowired
     Job batchJob;
 
+    @Autowired
+    Job asyncJob;
+
+    @Autowired
+    Job batchDataJob;
+    
     private final Logger logger = LoggerFactory.getLogger(BatchRequestMonitor.class);
 
     @Scheduled(fixedRate = 3000)
     public void start(){
         logger.debug("Start monitor");
+        Map<String, JobParameter> jobId = new HashMap<>();
+
         jobRequestRepository.findAllByStatusNotLike("COMPLETED").forEach( jobRequest -> {
             switch (jobRequest.getStatus()){
                 case "":
-                    logger.debug("Not started {}", jobRequest.getJobRequestId());
-                    Map<String, JobParameter> jobId = new HashMap<>();
                     jobId.put("jobRequestId", new JobParameter(jobRequest.getJobRequestId().longValue()));
                     jobId.put("startTime", new JobParameter(Calendar.getInstance().getTimeInMillis()));
-                    
                     try {
-                        jobLauncher.run(batchJob, new JobParameters( jobId));
+                        jobLauncher.run(batchDataJob, new JobParameters( jobId));
+                    } catch (JobExecutionException e){
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case "Created":
+                    logger.debug("Not started {}", jobRequest.getJobRequestId());
+                    jobId.put("jobRequestId", new JobParameter(jobRequest.getJobRequestId().longValue()));
+                    jobId.put("startTime", new JobParameter(Calendar.getInstance().getTimeInMillis()));
+
+                    try {
+                        jobLauncher.run(asyncJob, new JobParameters(jobId));
                     } catch (JobExecutionException e){
                         e.printStackTrace();
                     }
