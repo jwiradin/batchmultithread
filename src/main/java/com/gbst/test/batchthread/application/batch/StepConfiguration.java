@@ -39,7 +39,7 @@ public class StepConfiguration {
     ItemProcessor<Integer,BatchData> stepItemProcessor;
 
     @Autowired
-    ItemWriter<BatchData> step1ItemWriter;
+    ItemWriter<BatchData> stepItemWriter;
 
     @Autowired
     Partitioner stepPartitioner;
@@ -51,8 +51,7 @@ public class StepConfiguration {
     StepListener stepListener;
 
     @Autowired
-    ItemProcessListener<Integer,BatchData> step1ItemProcessListener;
-
+    StepItemProcessorListener stepItemProcessorListener;
 
     @Autowired
     StepItemWriterListener stepItemWriterListener;
@@ -63,10 +62,10 @@ public class StepConfiguration {
         return steps.get("step1").<Integer, BatchData>chunk(20)
                 .reader(step1ItemReader)
                 .processor(stepItemProcessor)
-                .writer(step1ItemWriter)
+                .writer(stepItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
-                .listener(step1ItemProcessListener)
+                .listener(stepItemProcessorListener)
                 .build();
     }
 
@@ -88,10 +87,10 @@ public class StepConfiguration {
         return steps.get("step2").<Integer, BatchData>chunk(20)
                 .reader(step2ItemReader)
                 .processor(stepItemProcessor)
-                .writer(step1ItemWriter)
+                .writer(stepItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
-                .listener(step1ItemProcessListener)
+                .listener(stepItemProcessorListener)
                 .build();
     }
 
@@ -112,10 +111,10 @@ public class StepConfiguration {
         return steps.get("step3").<Integer, BatchData>chunk(20)
                 .reader(step3ItemReader)
                 .processor(stepItemProcessor)
-                .writer(step1ItemWriter)
+                .writer(stepItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
-                .listener(step1ItemProcessListener)
+                .listener(stepItemProcessorListener)
                 .build();
     }
 
@@ -137,10 +136,10 @@ public class StepConfiguration {
         return steps.get("step4").<Integer, BatchData>chunk(20)
                 .reader(step4ItemReader)
                 .processor(stepItemProcessor)
-                .writer(step1ItemWriter)
+                .writer(stepItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
-                .listener(step1ItemProcessListener)
+                .listener(stepItemProcessorListener)
                 .build();
     }
 
@@ -162,10 +161,10 @@ public class StepConfiguration {
         return steps.get("step5").<Integer, BatchData>chunk(20)
                 .reader(step5ItemReader)
                 .processor(stepItemProcessor)
-                .writer(step1ItemWriter)
+                .writer(stepItemWriter)
                 .listener(stepListener)
                 .listener(stepItemWriterListener)
-                .listener(step1ItemProcessListener)
+                .listener(stepItemProcessorListener)
                 .build();
     }
 

@@ -2,6 +2,7 @@ package com.gbst.test.batchthread.application.component;
 
 import com.gbst.test.batchthread.application.model.BatchData;
 import com.gbst.test.batchthread.application.repository.BatchDataRepository;
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemProcessListener;
@@ -50,41 +51,11 @@ public class Step1Component {
         };
     }
 
-
-
-
     @Bean
-    public ItemWriter<BatchData> step1ItemWriter(){
+    public ItemWriter<BatchData> stepItemWriter(){
         JpaItemWriter<BatchData> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(entityManagerFactory);
         return writer;
-    }
-
-    @Bean
-    @StepScope
-    public ItemProcessListener<Integer,BatchData> step1ItemProcessorListener(@Value("#{stepExecution}") StepExecution stepExecution){
-
-        return new ItemProcessListener<Integer, BatchData>() {
-
-            private LocalDateTime start;
-
-            @Override
-            public void beforeProcess(Integer integer) {
-                start = LocalDateTime.now();
-            }
-
-            @Override
-            public void afterProcess(Integer integer, BatchData batchData) {
-                batchData.setJobStart(start);
-                batchData.setJobEnd(LocalDateTime.now());
-                batchData.setJobExecutionId(stepExecution.getJobExecutionId());
-            }
-
-            @Override
-            public void onProcessError(Integer integer, Exception e) {
-
-            }
-        };
     }
 
 }

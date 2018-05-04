@@ -16,7 +16,7 @@ public class StepItemReaderListener implements ItemReadListener<Integer> {
 
     @Override
     public void afterRead(Integer integer) {
-        //logger.debug("read {}", integer);
+        logger.debug("read {}", integer);
     }
 
     @Override
