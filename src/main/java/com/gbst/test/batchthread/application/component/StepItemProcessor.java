@@ -45,6 +45,7 @@ public class StepItemProcessor implements ItemProcessor<Integer, BatchData> {
                 output.setStep5(Thread.currentThread().getName());
                 break;
         }
+        output.setLastStep(curStep);
         output.setNextStep(curStep);
 
         return output;

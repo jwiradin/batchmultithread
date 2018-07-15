@@ -52,7 +52,7 @@ public class BatchRequestMonitor {
                     jobId.put("jobRequestId", new JobParameter(jobRequest.getJobRequestId().longValue()));
                     jobId.put("startTime", new JobParameter(Calendar.getInstance().getTimeInMillis()));
                     try {
-                        jobLauncher.run(batchDataJob, new JobParameters( jobId));
+                        jobLauncher.run(batchDataJob, new JobParameters(jobId));
                     } catch (JobExecutionException e){
                         e.printStackTrace();
                     }
